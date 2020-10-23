@@ -2,7 +2,7 @@ import os
 import discord
 import random
 
-TOKEN="Njg4MDc0MjAzNDM3ODU4ODgx.XmvChQ.-m3bkl4K5s-JmDf2_4VmzhyKSb0"
+TOKEN=""
 
 #dice imgs / immagini dadi
 d4s = ["img/d4-1.png", "img/d4-2.png", "img/d4-3.png", "img/d4-4.png"]
