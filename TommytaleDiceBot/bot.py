@@ -2,7 +2,7 @@ import os
 import discord
 import random
 
-TOKEN="token"
+TOKEN="TOKEN"
 
 #dice imgs / immagini dadi
 d4s = ["img/d4-1.png", "img/d4-2.png", "img/d4-3.png", "img/d4-4.png"]
@@ -47,6 +47,8 @@ def gen_d12():
     number = random.randint(0, 11)
     return d12s[number]
 
+simplemode = False
+
 def run():
     client = discord.Client()
 
@@ -63,24 +65,57 @@ def run():
 
     @client.event
     async def on_message(message):
+        global simplemode
         if message.author == client.user:
             return
+        if message.content.startswith("!dndebug"):
+            await message.channel.send("client.user ="+str(client.user)+"Message.author ="+str(message.author)+"\n\n"+str(simplemode))
+        if message.content.startswith('!dsimple'):
+            if(simplemode):
+                simplemode = False
+            else:
+                simplemode = True
+            await message.channel.send("Modalità semplice:"+str(simplemode))
 
-        #checks for the dice rolls and calls the relative function / controlla per i roll dei dadi tramite i comandi !d<> e chiama la relativa funzione
-        if message.content.startswith('!d20'):
-            await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d20()))
-        elif message.content.startswith('!d4'):
-            await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d4()))
-        elif message.content.startswith('!d6'):
-            await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d6()))
-        elif message.content.startswith('!d8'):
-            await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d8()))
-        elif message.content.startswith('!d10'):
-            await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d10()))
-        elif message.content.startswith('!d12'):
-            await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d12()))
-        elif message.content.startswith('!d%'):
-            await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d100()))
+
+        if(not simplemode):
+            #checks for the dice rolls and calls the relative function / controlla per i roll dei dadi tramite i comandi !d<> e chiama la relativa funzione
+            if message.content.startswith('!d20'):
+                await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d20()))
+            elif message.content.startswith('!d4'):
+                await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d4()))
+            elif message.content.startswith('!d6'):
+                await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d6()))
+            elif message.content.startswith('!d8'):
+                await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d8()))
+            elif message.content.startswith('!d10'):
+                await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d10()))
+            elif message.content.startswith('!d12'):
+                await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d12()))
+            elif message.content.startswith('!d%'):
+                await message.channel.send("Il dado ha per te deciso:", file=discord.File(gen_d100()))
+        else:
+            if message.content.startswith('!d20'):
+                e = discord.Embed(title=str(random.randint(1,20)))
+                await message.channel.send("Il dado ha per te deciso:", embed=e)
+            elif message.content.startswith('!d4'):
+                e = discord.Embed(title=str(random.randint(1,4)))
+                await message.channel.send("Il dado ha per te deciso:", embed=e)
+            elif message.content.startswith('!d6'):
+                e = discord.Embed(title=str(random.randint(1,6)))
+                await message.channel.send("Il dado ha per te deciso:", embed=e)
+            elif message.content.startswith('!d8'):
+                e = discord.Embed(title=str(random.randint(1,8)))
+                await message.channel.send("Il dado ha per te deciso:", embed=e)
+            elif message.content.startswith('!d10'):
+                e = discord.Embed(title=str(random.randint(1,10)))
+                await message.channel.send("Il dado ha per te deciso:", embed=e)
+            elif message.content.startswith('!d12'):
+                e = discord.Embed(title=str(random.randint(1,4)))
+                await message.channel.send("Il dado ha per te deciso:", embed=e)
+            elif message.content.startswith('!d100') or message.content.startswith('!d%'):
+                e = discord.Embed(title=str(random.randint(1,10))+"0")
+                await message.channel.send("Il dado ha per te deciso:", embed=e)
 
     client.run(TOKEN)
 run()
