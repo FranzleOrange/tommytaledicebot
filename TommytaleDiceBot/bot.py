@@ -3,7 +3,7 @@ import discord
 import random
 
 #Bot Version: v1.1.2
-#Contributors: Emafire003 
+#Contributors: Emafire003, Emafir3
 
 TOKEN=""
 
